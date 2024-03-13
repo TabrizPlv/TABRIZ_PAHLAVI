@@ -11,6 +11,8 @@ export const verifyStaffID = (
   if (split.length == 2) {
     if (split[0].length !== 0 && split[1].length !== 0) {
       next();
+    } else {
+      res.status(500).send(`${staff_pass_id} is an invalid staff id!`);
     }
   } else {
     res.status(500).send(`${staff_pass_id} is an invalid staff id!`);

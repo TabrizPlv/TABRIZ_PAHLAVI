@@ -14,6 +14,7 @@ const App: React.FC = () => {
     new Set<Redemption>()
   );
   const [successModal, setSuccessModal] = useState<boolean>(false);
+  const [inputError, setInputError] = useState<boolean>(false);
   const [errorModal, setErrorModal] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>(
     "Here are your gifts!!!"
@@ -23,8 +24,13 @@ const App: React.FC = () => {
   );
   const staffIDHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setStaffID(event.target.value);
+    setInputError(false);
   };
   const onSubmitHandler = async () => {
+    if(staffID.length === 0) {
+      setInputError(true);
+      return;
+    }
     try {
       const { staff_pass_id, team_name } = await getStaffData(staffID);
       teamsRedeemed.forEach((redemption) => {
@@ -78,6 +84,8 @@ const App: React.FC = () => {
             Please Key In Your Staff ID To Collect Your Presents!
           </Typography>
           <TextField
+            error={inputError}
+            helperText={inputError ? "Staff ID cannot be empty!" : ""}
             id="outlined-basic-uncontrolled"
             label="Staff ID"
             variant="outlined"
