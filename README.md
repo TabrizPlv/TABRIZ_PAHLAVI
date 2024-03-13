@@ -38,30 +38,10 @@
 #### 2. List of all redemptions are stored in a state.
 ### Sequence Diagram
                     
-```seq
-User->Controller: Submit staff_pass_id
-Note right of User: Middleware verifyStaffID()
-Controller->Service: Sends request
-Service->Database (CSV File): Request Data
-Database (CSV File)->Service: Sends Data
-Service->Controller: Sends Data
-Controller->User: Converts Data to DTO\n and sends to User
-```
-### FlowChart
-```flow
-st=>start
-op=>operation: Submit staff_pass_id
-cond1=>condition: Is staff_pass_id valid?
-cond2=>condition: Has Team already redeemed gifts?
-op2=>operation: Team rejected
-e=>end: Gifts redeemed for team
+![Sequence Diagram](images/sequence-diagram.svg)
 
-st->op->cond1
-cond1(yes)->cond2
-cond1(no)->op
-cond2(no)->e
-cond2(yes)->op2
-```
+### FlowChart
+![FlowChart](images/flowchart.png)
 ### Usage
 #### Frontend root folder: "TABRIZ_PAHLAVI/frontend"
 #### Backend root folder: "TABRIZ_PAHLAVI/backend"
