@@ -10,7 +10,7 @@ class CSVUtil {
     errorMessage: string
   ): Promise<StaffData> {
     return new Promise((resolve, reject) => {
-      const readableStream = fs.createReadStream(CSVUtil.csvFilePath);
+      const readableStream = fs.createReadStream(this.csvFilePath);
       readableStream
         .pipe(csvParser())
         .on("data", (row) => {

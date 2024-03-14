@@ -7,21 +7,22 @@ const mockStaffData: StaffData = {
   created_at: "00000000",
 };
 
-const errorMessage = "aa";
+const mockOn = {
+  on: (event: string, onFunction: any) => {
+    if (event === "data") {
+      onFunction("mock parameter");
+    } else if (event === "end") {
+      onFunction();
+    } else if (event === "error") {
+      onFunction("mock error");
+    }
+    return mockOn;
+  },
+};
 
 jest.mock("fs", () => ({
   createReadStream: jest.fn(() => ({
-    pipe: jest.fn(() => ({
-      on: jest.fn((event, onFunction) => {
-        if (event === "data") {
-          onFunction(mockStaffData);
-        } else if (event === "end") {
-          throw new Error(errorMessage);
-        } else if (event === "error") {
-          throw new Error(errorMessage);
-        }
-      }),
-    })),
+    pipe: jest.fn(() => mockOn),
   })),
 }));
 
@@ -36,5 +37,18 @@ describe("CSVUtil", () => {
       expect(result).toEqual(mockStaffData);
       expect(callback).toHaveBeenCalled();
     });
+    it("should give an error if no row matches", async () => {
+      const errorMessage = "error message";
+      const callback = jest.fn();
+      callback.mockReturnValue(undefined);
+      try {
+        await CSVUtil.queryRow(callback, errorMessage);
+      } catch (error) {
+        const err = error as Error;
+        expect(err.message).toBe(errorMessage);
+      }
+    });
   });
 });
+
+

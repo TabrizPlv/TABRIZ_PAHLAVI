@@ -27,7 +27,7 @@ const App: React.FC = () => {
     setInputError(false);
   };
   const onSubmitHandler = async () => {
-    if(staffID.length === 0) {
+    if (staffID.length === 0) {
       setInputError(true);
       return;
     }
